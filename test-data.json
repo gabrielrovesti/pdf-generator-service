@@ -1,0 +1,65 @@
+{
+    "title": "Report di Test PDF Generator",
+    "author": "Sistema di Test",
+    "charts": [
+      {
+        "type": "bar",
+        "title": "Vendite Mensili 2024",
+        "labels": ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio"],
+        "datasets": [
+          {
+            "label": "Vendite",
+            "data": [65, 59, 80, 81, 56],
+            "backgroundColor": "rgba(54, 162, 235, 0.5)",
+            "borderColor": "rgb(54, 162, 235)",
+            "borderWidth": 1
+          },
+          {
+            "label": "Previsioni",
+            "data": [70, 62, 75, 85, 60],
+            "backgroundColor": "rgba(255, 99, 132, 0.5)",
+            "borderColor": "rgb(255, 99, 132)",
+            "borderWidth": 1
+          }
+        ]
+      },
+      {
+        "type": "line",
+        "title": "Andamento Prestazioni",
+        "labels": ["Settimana 1", "Settimana 2", "Settimana 3", "Settimana 4"],
+        "datasets": [
+          {
+            "label": "Team A",
+            "data": [10, 15, 20, 25],
+            "borderColor": "rgb(75, 192, 192)",
+            "tension": 0.1,
+            "fill": false
+          },
+          {
+            "label": "Team B",
+            "data": [15, 10, 25, 20],
+            "borderColor": "rgb(153, 102, 255)",
+            "tension": 0.1,
+            "fill": false
+          }
+        ]
+      },
+      {
+        "type": "pie",
+        "title": "Distribuzione Budget",
+        "labels": ["Marketing", "Sviluppo", "Amministrazione", "Supporto"],
+        "datasets": [
+          {
+            "data": [30, 40, 15, 15],
+            "backgroundColor": [
+              "rgba(255, 99, 132, 0.7)",
+              "rgba(54, 162, 235, 0.7)",
+              "rgba(255, 206, 86, 0.7)",
+              "rgba(75, 192, 192, 0.7)"
+            ],
+            "borderWidth": 1
+          }
+        ]
+      }
+    ]
+  }

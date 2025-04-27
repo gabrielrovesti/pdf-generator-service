@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test PDF Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test PDF Generator Service</h1>
+    <p>Questa pagina ti permette di testare il servizio di generazione PDF con grafici ChartJS.</p>
+    
+    <div class="buttons">
+        <button id="generatePortrait">Genera PDF (Verticale)</button>
+        <button id="generateLandscape">Genera PDF (Orizzontale)</button>
+    </div>
+    
+    <script>
+        const testData = {
+            "title": "Report di Test PDF Generator",
+            "author": "Sistema di Test",
+            "charts": [
+                {
+                    "type": "bar",
+                    "title": "Vendite Mensili 2024",
+                    "labels": ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio"],
+                    "datasets": [
+                        {
+                            "label": "Vendite",
+                            "data": [65, 59, 80, 81, 56],
+                            "backgroundColor": "rgba(54, 162, 235, 0.5)",
+                            "borderColor": "rgb(54, 162, 235)",
+                            "borderWidth": 1
+                        },
+                        {
+                            "label": "Previsioni",
+                            "data": [70, 62, 75, 85, 60],
+                            "backgroundColor": "rgba(255, 99, 132, 0.5)",
+                            "borderColor": "rgb(255, 99, 132)",
+                            "borderWidth": 1
+                        }
+                    ]
+                },
+                {
+                    "type": "line",
+                    "title": "Andamento Prestazioni",
+                    "labels": ["Settimana 1", "Settimana 2", "Settimana 3", "Settimana 4"],
+                    "datasets": [
+                        {
+                            "label": "Team A",
+                            "data": [10, 15, 20, 25],
+                            "borderColor": "rgb(75, 192, 192)",
+                            "tension": 0.1,
+                            "fill": false
+                        },
+                        {
+                            "label": "Team B",
+                            "data": [15, 10, 25, 20],
+                            "borderColor": "rgb(153, 102, 255)",
+                            "tension": 0.1,
+                            "fill": false
+                        }
+                    ]
+                },
+                {
+                    "type": "pie",
+                    "title": "Distribuzione Budget",
+                    "labels": ["Marketing", "Sviluppo", "Amministrazione", "Supporto"],
+                    "datasets": [
+                        {
+                            "data": [30, 40, 15, 15],
+                            "backgroundColor": [
+                                "rgba(255, 99, 132, 0.7)",
+                                "rgba(54, 162, 235, 0.7)",
+                                "rgba(255, 206, 86, 0.7)",
+                                "rgba(75, 192, 192, 0.7)"
+                            ],
+                            "borderWidth": 1
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // Funzione per generare PDF
+        async function generatePDF(orientation) {
+            const endpoint = orientation === 'landscape' 
+                ? 'http://localhost:3000/api/pdf/generate-landscape'
+                : 'http://localhost:3000/api/pdf/generate';
+                
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData)
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Errore HTTP: ${response.status} - ${errorData.error || 'Errore sconosciuto'}`);
+                }
+                
+                // Crea un blob dal PDF
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                
+                // Apri il PDF in una nuova finestra
+                window.open(url, '_blank');
+            } catch (error) {
+                console.error('Errore nella generazione del PDF:', error);
+                alert(`Errore: ${error.message}`);
+            }
+        }
+
+        // Gestione eventi pulsanti
+        document.getElementById('generatePortrait').addEventListener('click', () => {
+            generatePDF('portrait');
+        });
+        
+        document.getElementById('generateLandscape').addEventListener('click', () => {
+            generatePDF('landscape');
+        });
+    </script>
+</body>
+</html>
